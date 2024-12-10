@@ -7,32 +7,22 @@
             <div class="media-content">
               <div class="content">
                 <div class="image is-48x48" style="display: block; margin: 0 auto">
-                  <img
-                    class="is-rounded profile-pict"
-                    src="../assets/user.png"
-                  />
+                  <img class="is-rounded profile-pict" src="../assets/user.png" />
                 </div>
                 <p class="has-text-centered dynamic-title" style="margin-top: 10px ;margin-bottom: 10px !important">
-                  <strong>{{name}}</strong>
+                  <strong>{{ name }}</strong>
                 </p>
               </div>
             </div>
           </article>
           <hr>
           <div class="columns is-multiline dynamic-subtitle">
-            <div
-              v-for="(item, index) in menuList"
-              :key="index"
-              class="column is-6 has-text-centered custom-padding"
-            >
-              <router-link
-                tag="div"
-                :to="item.path"
-                :class="['menu-btn', {'active-menu has-text-white' : ($route.path).startsWith(item.path)}]"
-              >
+            <div v-for="(item, index) in menuList" :key="index" class="column is-6 has-text-centered custom-padding">
+              <router-link tag="div" :to="item.path"
+                :class="['menu-btn', { 'active-menu has-text-white': ($route.path).startsWith(item.path) }]">
                 <b-icon :icon="item.icon" size="is-medium"></b-icon>
                 <p>
-                  <small>{{item.name}}</small>
+                  <small>{{ item.name }}</small>
                 </p>
               </router-link>
             </div>
@@ -84,22 +74,18 @@ export default {
           icon: "account-group",
           path: "/subscriber"
         },
-       
+
         // {
         //   name: 'Kelola Material',
         //   icon: "door",
         //   path: "/material"
         // },
-        {
-          name: 'Accounts',
-          icon: "card-account-details",
-          path: "/account"
-        }
       ]
     };
   },
   computed: {
     ...mapState({
+      role: state => state.login.dataUser.role,
       name: state => state.login.dataUser.name
     })
   },
@@ -111,6 +97,12 @@ export default {
   mounted() {
     // Keep in active
     this.active = this.$route.path;
+    if (this.role === 'ROLE_ADMIN') this.menuList.push({
+      name: 'Accounts',
+      icon: "card-account-details",
+      path: "/account"
+    })
+
   }
 };
 </script>
@@ -121,12 +113,15 @@ export default {
 .menu-btn:hover {
   background: #ecececad;
 }
+
 .custom-padding {
   padding: 0.3rem;
 }
+
 .no-margin-right {
   margin-right: 0;
 }
+
 .profile-pict {
   // clip: rect(0px,60px,60px,0px);
   max-height: 52px;
@@ -134,8 +129,8 @@ export default {
   min-height: 52px;
   min-width: 52px;
 }
+
 .logout:hover {
   background-color: #ffffff23;
 }
 </style>
-
